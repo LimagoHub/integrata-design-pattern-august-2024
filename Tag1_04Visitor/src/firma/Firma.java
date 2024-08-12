@@ -4,6 +4,7 @@ import mitarbeiter.AbstractMitarbeiter;
 import mitarbeiter.visitors.MitarbeiterVisitor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Firma {
@@ -16,16 +17,22 @@ public class Firma {
         mitarbeiters.remove(mitarbeiter);
     }
 
-    /*public void print() {
+    public void print() {
         mitarbeiters.forEach(System.out::println);
+
+
     }
 
-     */
+    public List<AbstractMitarbeiter> getMitarbeiters() {
+        return Collections.unmodifiableList(mitarbeiters);
+    }
 
     public void iterate(MitarbeiterVisitor visitor) {
+       visitor.init();
        for (AbstractMitarbeiter mitarbeiter : mitarbeiters) {
            //visitor.visit(mitarbeiter);
            mitarbeiter.accept(visitor);
        }
+       visitor.dispose();
     }
 }
