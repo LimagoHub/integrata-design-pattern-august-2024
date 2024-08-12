@@ -1,6 +1,8 @@
 package de.math;
 
-public class CalculatorFactor {
+import common.LoggerProxy;
+
+public class CalculatorFactory {
 
     private static boolean logger = false;
     private static boolean secure = false;
@@ -10,7 +12,7 @@ public class CalculatorFactor {
     }
 
     public static void setLogger(boolean logger) {
-        CalculatorFactor.logger = logger;
+        CalculatorFactory.logger = logger;
     }
 
     public static boolean isSecure() {
@@ -18,12 +20,13 @@ public class CalculatorFactor {
     }
 
     public static void setSecure(boolean secure) {
-        CalculatorFactor.secure = secure;
+        CalculatorFactory.secure = secure;
     }
 
     public static Calculator createCalculator() {
         Calculator calculator = new CalculatorImpl();
-        if(logger) calculator = new CalculatorLogger(calculator);
+        //if(logger) calculator = new CalculatorLogger(calculator);
+        if(logger) calculator = (Calculator) LoggerProxy.newInstance(calculator);
         if (secure) calculator = new CalculatorSecure(calculator);
         return calculator;
     }
