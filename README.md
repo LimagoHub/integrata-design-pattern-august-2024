@@ -1,0 +1,1 @@
+# integrata-design-pattern-august-2024
