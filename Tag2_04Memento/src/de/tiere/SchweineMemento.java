@@ -2,5 +2,5 @@ package de.tiere;
 
 import java.io.Serializable;
 
-public interface SchweineMemento  {
+public interface SchweineMemento extends Serializable {
 }
