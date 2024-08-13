@@ -16,7 +16,7 @@ public class Main {
        // 3. Variante
         clazz = Class.forName("de.tiere.Schwein");
 
-        Object object = clazz.newInstance();
+        Object object = clazz.getConstructor(String.class).newInstance("Miss Piggy");
         System.out.println(object);
 
         Method [] methods = clazz.getMethods();

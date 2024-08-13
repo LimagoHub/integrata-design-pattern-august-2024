@@ -1,6 +1,9 @@
 package de.tiere;
 
-public class Schwein {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Schwein implements Serializable {
 
 
 
