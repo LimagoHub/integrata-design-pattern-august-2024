@@ -1,8 +1,15 @@
 package command;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class CommandFactory {
 
+    private static final String PREFIX = "command.";
+    private static final String SUFFIX = "Command";
+
     private static CommandFactory commandFactory = new CommandFactory();
+
+
 
     private CommandFactory() {
 
@@ -12,21 +19,19 @@ public class CommandFactory {
         return commandFactory;
     }
 
-    public Command createCommand(String command) {
-        Command cmd = null ;
-        String [] tokens = command.split(" ");
-        if(tokens[0].equals("Add")) {
-            cmd = new AddCommand();
-            cmd.parse(tokens);
+    public Command createCommand(String zeile) {
+        try {
+            return createCommandImpl(zeile);
+        } catch (Throwable e) {
+            System.out.println("unbekannter Befehl");
+            return null;
         }
-        if(tokens[0].equals("Sub")) {
-            cmd = new SubCommand();
-            cmd.parse(tokens);
-        }
-        if(tokens[0].equals("Print")) {
-            cmd = new PrintCommand();
-            cmd.parse(tokens);
-        }
-        return cmd;
+    }
+
+    private static Command createCommandImpl(String zeile) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+        String [] tokens = zeile.split(" ");
+        Command result = (Command) Class.forName(PREFIX + tokens[0] + SUFFIX).getConstructor().newInstance();
+        result.parse(tokens);
+        return result;
     }
 }
