@@ -1,15 +1,16 @@
 package tiere;
 
-import events.PropertyChangedEvent;
-import events.PropertyChangedListener;
 
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Schwein {
 
     private final List<PigTooFatListener> pigTooFatListeners = new ArrayList<>();
-    private final List<PropertyChangedListener> propertyChangedListeners = new ArrayList<>();
+
 
     public void addPigTooFatListener(final PigTooFatListener listener) {
         pigTooFatListeners.add(listener);
@@ -19,29 +20,25 @@ public class Schwein {
         pigTooFatListeners.remove(listener);
     }
 
-    public void addPropertyChangedListener(final PropertyChangedListener listener) {
-        propertyChangedListeners.add(listener);
-    }
-
-    public void removePropertyChangedListener(final PropertyChangedListener listener) {
-        propertyChangedListeners.remove(listener);
-    }
 
     private void firePigTooFatEvent(){
         pigTooFatListeners.forEach(listener -> listener.pigTooFat(this));
     }
 
-    private void firePropertyChangedEvent(String propertyName, Object oldValue, Object newValue) {
-        firePropertyChangedEvent(new PropertyChangedEvent(this, propertyName, oldValue, newValue));
-    }
 
-    private void firePropertyChangedEvent(PropertyChangedEvent event){
-        propertyChangedListeners.forEach(listener->listener.propertyChanged(event));
-    }
+    private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
 
     private String name;
     private int gewicht;
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
 
     public Schwein() {
         this("Nobody");
@@ -56,7 +53,8 @@ public class Schwein {
     }
 
     public void setName(String name) {
-        firePropertyChangedEvent("name", this.name, this.name=name);
+        this.name = name;
+        propertyChangeSupport.firePropertyChange("name", this.name, this.name = name);
     }
 
     public int getGewicht() {
@@ -64,7 +62,7 @@ public class Schwein {
     }
 
     private void setGewicht(int gewicht) {
-        firePropertyChangedEvent("gewicht", this.gewicht, this.gewicht=gewicht);
+        propertyChangeSupport.firePropertyChange("gewicht", this.gewicht, this.gewicht = gewicht);
         if(gewicht > 20) firePigTooFatEvent();
     }
 
