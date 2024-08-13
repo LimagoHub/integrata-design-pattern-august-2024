@@ -11,14 +11,25 @@ public class CommandHistory {
     private final Deque<Command> redoStack = new ArrayDeque<>();
     public void add(Command command) {
         if(command.isQuery()) return;
-        // Code für Command
+        undoStack.push(command);
+        redoStack.clear();
     }
 
     public void undo() {
-        System.out.println("can't undo");
+        if(undoStack.isEmpty())  System.out.println("can't undo");
+        else {
+            Command command = undoStack.pop();
+            command.undo();
+            redoStack.push(command);
+        }
     }
 
     public void redo() {
-        System.out.println("can't redo");
+        if(redoStack.isEmpty())  System.out.println("can't redo");
+        else {
+            Command command = redoStack.pop();
+            command.execute();
+            undoStack.push(command);
+        }
     }
 }
