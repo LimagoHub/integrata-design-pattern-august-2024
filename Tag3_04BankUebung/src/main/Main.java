@@ -2,6 +2,7 @@ package main;
 import composite.AbstractKontoNode;
 import composite.Konto;
 import composite.KontoGruppe;
+import composite.visitor.SummenVisitor;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,9 +28,11 @@ public class Main {
 
         //root.iterator().forEachRemaining(System.out::println);
 
-        for(var node : root) {
+        /*for(var node : root) {
             System.out.println(node);
-        }
+        }*/
+        //child2.iterate(new SummenVisitor());
+
     }
 
 
