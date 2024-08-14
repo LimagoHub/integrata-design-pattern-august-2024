@@ -4,6 +4,7 @@ import main.fileprocessor.handler.CharacterHandler;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,11 @@ public class FileProcessor {
                 process((char) c);
             }
             dispose();
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
