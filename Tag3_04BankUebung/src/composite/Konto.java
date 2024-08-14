@@ -1,7 +1,7 @@
 package composite;
 
 public class Konto extends AbstractKontoNode {
-    private double saldo;
+    private double saldo=0;
     public Konto(String label) {
         super(label);
     }

@@ -25,7 +25,11 @@ public class Main {
         Konto konto2_2 = new Konto("konto2_2");
         child2.appendChild(konto2_2);
 
-        root.print();
+        //root.iterator().forEachRemaining(System.out::println);
+
+        for(var node : root) {
+            System.out.println(node);
+        }
     }
 
 
