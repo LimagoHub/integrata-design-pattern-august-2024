@@ -1,9 +1,22 @@
 package main.fileprocessor;
 
+import main.fileprocessor.handler.CharacterHandler;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class FileProcessor {
+public class FileProcessor {
+
+    private final List<CharacterHandler> handlers = new ArrayList<>();
+
+    public void addHandler(CharacterHandler handler) {
+        handlers.add(handler);
+    }
+    public void removeHandler(CharacterHandler handler) {
+        handlers.remove(handler);
+    }
 
     public final void run(String filename) {
         try(FileReader reader = new FileReader(filename)) {
@@ -18,13 +31,15 @@ public abstract class FileProcessor {
         }
     }
 
-    public void init() {
-        // ok
+    private void init() {
+        handlers.forEach(CharacterHandler::init);
     }
 
-    public abstract void process(char c) ;
+    private  void process(char c) {
+        handlers.forEach(handler -> handler.process(c));
+    }
 
-    public void dispose() {
-        // ok
+    private void dispose() {
+        handlers.forEach(CharacterHandler::dispose);
     }
 }

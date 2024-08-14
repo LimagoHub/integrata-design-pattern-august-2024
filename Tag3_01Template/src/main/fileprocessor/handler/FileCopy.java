@@ -1,15 +1,17 @@
-package main.fileprocessor;
+package main.fileprocessor.handler;
+
+import main.fileprocessor.FileProcessor;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileCopy extends FileProcessor {
+public class FileCopy  implements CharacterHandler {
 
     private FileWriter fileWriter;
     @Override
     public void init() {
         try {
-            fileWriter = new FileWriter("./resource/ausgabe.txt");
+            fileWriter = new FileWriter("./resources/ausgabe.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
